@@ -10,10 +10,16 @@ const PORT = process.env.PORT || 3000;
 
 app.use(morgan('common'));
 
+// Buat browser instance
+let browser;
+
+(async () => {
+  browser = await chromium.launch(); // Browser headless
+})();
+
 app.get('/', async (req, res) => {
   const text = req.query.text
   if (!text) return res.status(400).json({ message: 'Text is required' });
-  const browser = await chromium.launch();
   const context = await browser.newContext({
     viewport: {
       width: 1536,
@@ -51,7 +57,7 @@ app.get('/', async (req, res) => {
       height: 500
     }
   }));
-  await browser.close();
+  await context.close();
 });
 
 app.listen(PORT, () => {
