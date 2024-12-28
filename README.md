@@ -1,3 +1,14 @@
+---
+title: Bart
+emoji: 🏢
+colorFrom: gray
+colorTo: yellow
+sdk: docker
+pinned: false
+license: apache-2.0
+short_description: bart
+---
+
 # BRAT API USING PLAYWRIGHT
 
 ## HOW TO INSTALL
