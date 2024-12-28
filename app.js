@@ -4,9 +4,11 @@ const express = require('express');
 const morgan = require('morgan');
 const { chromium } = require('playwright');
 const path = require('path');
+const os = require('os');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+let hit = 0
 
 app.use(morgan('common'));
 
@@ -19,9 +21,26 @@ const launchBrowser = async () => {
 
 launchBrowser();
 
-app.get('/', async (req, res) => {
+app.use('*', async (req, res) => {
   const text = req.query.text
-  if (!text) return res.status(400).json({ message: 'Text is required' });
+  hit++
+  if (!text) return res.status(200).json({
+    author: 'zenn08 (aqul)',
+    repository: {
+      github: 'https://github.com/zennn08/brat-api/',
+      huggingface: 'https://huggingface.co/spaces/aqul/brat'
+    },
+    hit,
+    message: "Parameter `text` diperlukan",
+    runtime: {
+      os: os.type(),
+      platform: os.platform(),
+      architecture: os.arch(),
+      cpuCount: os.cpus().length,
+      uptime: `${os.uptime()} seconds`,
+      memoryUsage: `${Math.round((os.totalmem() - os.freemem()) / 1024 / 1024)} MB used of ${Math.round(os.totalmem() / 1024 / 1024)} MB`
+    }
+  })
   if (!browser) {
     await launchBrowser();
   }
