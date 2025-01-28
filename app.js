@@ -5,10 +5,10 @@ const morgan = require('morgan');
 const { chromium } = require('playwright');
 const path = require('path');
 const os = require('os');
+const axios = require('axios');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
-let hit = 0
 
 app.use(morgan('common'));
 
@@ -21,16 +21,23 @@ const launchBrowser = async () => {
 
 launchBrowser();
 
+async function fetchCount() {
+  try {
+    return (await axios.get("https://api.counterapi.dev/v1/aqul/brat/up")).data?.count || 0
+  } catch {
+    return 0
+  }
+}
+
 app.use('*', async (req, res) => {
   const text = req.query.text
-  hit++
+  const hit = fetchCount()
   if (!text) return res.status(200).json({
-    author: 'zenn08 (aqul)',
+    author: 'ze9nn08 (aqul)',
     repository: {
-      github: 'https://github.com/zennn08/brat-api/',
-      huggingface: 'https://huggingface.co/spaces/aqul/brat'
+      github: 'https://github.com/zennn08/brat-api/'
     },
-    hit,
+    hit: await hit,
     message: "Parameter `text` diperlukan",
     runtime: {
       os: os.type(),
