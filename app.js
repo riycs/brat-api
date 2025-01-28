@@ -33,7 +33,7 @@ app.use('*', async (req, res) => {
   const text = req.query.text
   const hit = fetchCount()
   if (!text) return res.status(200).json({
-    author: 'ze9nn08 (aqul)',
+    author: 'zennn08 (aqul)',
     repository: {
       github: 'https://github.com/zennn08/brat-api/'
     },
