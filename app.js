@@ -31,6 +31,8 @@ async function fetchCount() {
 
 app.use('*', async (req, res) => {
   const text = req.query.text
+  const background = req.query.background
+  const color = req.query.color
   const hit = fetchCount()
   if (!text) return res.status(200).json({
     author: 'zennn08 (aqul)',
@@ -75,6 +77,15 @@ app.use('*', async (req, res) => {
 
   // Fill "sas" on <input> #textInput
   await page.fill('#textInput', text);
+
+  await page.evaluate((data) => {
+    if (data.background) {
+      $('.node__content.clearfix').css('background-color', data.background);
+    }
+    if (data.color) {
+      $('.textFitted').css('color', data.color);
+    }
+  }, { background, color });
 
   const element = await page.$('#textOverlay');
   const box = await element.boundingBox();
