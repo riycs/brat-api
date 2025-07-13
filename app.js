@@ -35,9 +35,9 @@ app.use('*', async (req, res) => {
   const color = req.query.color
   const hit = fetchCount()
   if (!text) return res.status(200).json({
-    author: 'zennn08 (aqul)',
-    repository: {
-      github: 'https://github.com/zennn08/brat-api/'
+    author: '@riiycs',
+    forum: {
+      hinaters: 'https://hinaters.riycs.my.id/'
     },
     hit: await hit,
     message: "Parameter `text` diperlukan",
